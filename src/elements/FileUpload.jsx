@@ -84,8 +84,11 @@ const FileUpload = (props) => {
   };
 
   return (
+    <>
+    <div className="flex justify-center ">
+    {loading && <p>Loading galleryvv...</p>}
+    </div>
     <div className="flex items-center justify-center">
-      {loading && <p>Loading gallery...</p>}
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
       {images &&
         images.map((imageUrl, id) => {
@@ -105,6 +108,8 @@ const FileUpload = (props) => {
           )}
       </Popup>
     </div>
+    
+    </>
   );
 };
 
