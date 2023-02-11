@@ -38,7 +38,7 @@ function Gallery(props) {
   return (
     <>
       <Navbar verifiedUser={verifiedUser} />
-      <div className="">
+      <div className="flex items-center justify-center">
         <div className="mt-10">
           GALLERY
           <FileUpload verifiedUser={verifiedUser} currentUser={currentUser} />

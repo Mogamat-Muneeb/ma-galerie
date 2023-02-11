@@ -84,23 +84,25 @@ const FileUpload = (props) => {
   };
 
   return (
-    <div className="images-collection">
+    <div className="flex items-center justify-center">
       {loading && <p>Loading gallery...</p>}
+      <div className="grid grid-cols-3 gap-2">
       {images &&
         images.map((imageUrl, id) => {
           return (
-            <div className="flex " key={id}>
-              <img src={imageUrl.imageUrl} className="w-10 h-10"/>
+            <div className="flex w-full gap-3" key={id}>
+              <img src={imageUrl.imageUrl} className="w-[150px] h-[150px] object-cover"/>
             </div>
           );
         })}
-      <button onClick={openModal}>Upload an Image</button>
+        <button onClick={openModal} className="w-[150px] h-[150px] bg-[#1D1D1D] text-white flex items-center justify-center text-center">Upload an Image</button>
+      </div>
       <Popup open={open} onClose={closeModal}>
         <input type="file" accept="/image/*" onChange={handleChange}></input>
         <button onClick={handleUpload}>Save</button>
         {uploaded && (
           <p className="success-msg">Image was uploaded successfully</p>
-        )}
+          )}
       </Popup>
     </div>
   );
