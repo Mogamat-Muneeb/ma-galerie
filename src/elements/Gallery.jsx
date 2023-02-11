@@ -40,7 +40,6 @@ function Gallery(props) {
       <Navbar verifiedUser={verifiedUser} />
       <div className="flex items-center justify-center">
         <div className="mt-10">
-          GALLERY
           <FileUpload verifiedUser={verifiedUser} currentUser={currentUser} />
         </div>
       </div>

@@ -27,7 +27,7 @@ function Navbar(props) {
 
     return (
 
-        <div className="flex items-center w-full h-10 px-4 gap-10 text-white bg-[#1D1D1D]">
+        <div className="flex items-center w-full h-10 px-4 gap-10 text-white bg-[#1D1D1D] sticky top-0 z-10">
                  <button
                 onClick={handleSignOut}
                 className="font-medium text-[16px] text-white cursor-pointer flex items-center gap-1"
