@@ -4,6 +4,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, collection, setDoc, getDocs } from "firebase/firestore";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { RxCross2 } from "react-icons/rx";
 
 const FileUpload = (props) => {
   // console.log("currentUser FileUpload", props.currentUser)
@@ -17,10 +18,10 @@ const FileUpload = (props) => {
   const closeModal = () => setOpen(false);
   const openModal = () => {
     setOpen(!open);
-    document.body.classList.add('overflow-hidden');
-    if (open) {
-      document.body.classList.remove('overflow-hidden');
-    }
+    // document.body.classList.add("overflow-hidden");
+    // if (open) {
+    //   document.body.classList.remove("overflow-hidden");
+    // }
   };
   const userUsing = props.currentUser;
   console.log("userUsing", userUsing);
@@ -68,27 +69,6 @@ const FileUpload = (props) => {
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     setUploaded(false);
-
-    // uploadTask.on(
-    //   "state_changed",
-    //   (snapshot) => {
-    //     const progress =
-    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //     setUploadProgress(progress);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   },
-    //   () => {
-    //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //       const imageStoreRef = doc(db, "notes", userUsing, "user", file.name);
-    //       setDoc(imageStoreRef, {
-    //         imageUrl: downloadURL,
-    //       });
-    //     });
-    //     setUploaded(true);
-    //   }
-    // );
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -114,7 +94,7 @@ const FileUpload = (props) => {
     );
   };
 
-
+  
 
   return (
     <>
@@ -146,21 +126,33 @@ const FileUpload = (props) => {
           </button>
         </div>
       </div>
-      <div className={`flex items-center justify-center ${open ? "    flex justify-center items-center min-h-screen w-screen fixed inset-0 overflow-y-scroll bg-black bg-opacity-60 transition-opacity duration-300 md:z-50 z-[101]" : "hidden"}`}>
-            <div className="bg-white">
-            <input
-              type="file"
-              accept="/image/*"
-              onChange={handleChange}
-              className=""
-              ></input>
-            <button onClick={handleUpload}>Save</button>
-            {uploaded && (
-              <p className="success-msg">Image was uploaded successfully</p>
-              )}
-            </div>
+      <div
+        className={`flex items-center justify-center ${
+          open
+            ? "flex justify-center items-center min-h-screen w-screen fixed inset-0 overflow-y-scroll bg-black bg-opacity-60 transition-opacity duration-300 md:z-50 z-[101]"
+            : "hidden"
+        }`}
+      >
+        <div className=" bg-white flex flex-col justify-center items-center rounded-[3px] gap-2 p-2">
+          <div className="flex justify-between w-full">
+            <p className="font-bold ">Upload image</p>
+          <button  className="font-bold text-[20px] " onClick={openModal}>
+            <RxCross2 className="font-extrabold"/>
+          </button>
           </div>
-        </>
+          <div class="flex items-center justify-center gap-1 w-full">
+              <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 ">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                  </div>
+                  <input id="dropzone-file" type="file"  accept="/image/*" onChange={handleChange} class="hidden" />
+              </label>
+          <button  className="w-[50px] h-full bg-black text-white py-14  flex justify-center items-center font-semibold rounded-[3px] text-[12px]" onClick={handleUpload}>Save</button>
+          </div> 
+        </div>
+      </div>
+    </>
   );
 };
 

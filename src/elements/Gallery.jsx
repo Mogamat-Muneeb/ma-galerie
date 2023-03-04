@@ -39,7 +39,7 @@ function Gallery(props) {
     <>
       <Navbar verifiedUser={verifiedUser} />
       <div className="w-full ">
-        <div className="">
+        <div className="pt-10">
           <FileUpload verifiedUser={verifiedUser} currentUser={currentUser} />
         </div>
       </div>
