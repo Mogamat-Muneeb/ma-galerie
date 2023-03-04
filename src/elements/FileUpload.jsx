@@ -34,7 +34,7 @@ const FileUpload = (props) => {
   const loadAllImages = async () => {
     setLoading(true);
     const querySnapshot = await getDocs(
-      collection(db, "notes", userUsing, "user")
+      collection(db, "images", userUsing, "user")
     );
     const images = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
@@ -97,7 +97,7 @@ const FileUpload = (props) => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const imageStoreRef = doc(db, "notes", userUsing, "user", file.name);
+          const imageStoreRef = doc(db, "images", userUsing, "user", file.name);
           setDoc(imageStoreRef, {
             imageUrl: downloadURL,
           }).then(() => {
@@ -109,6 +109,8 @@ const FileUpload = (props) => {
       }
     );
   };
+
+
 
   return (
     <>
