@@ -15,7 +15,9 @@ const FileUpload = (props) => {
 
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
-  const openModal = () => setOpen(true);
+  const openModal = () => {
+    setOpen(!open);
+  };
   const userUsing = props.currentUser;
   console.log("userUsing", userUsing);
 
@@ -53,6 +55,7 @@ const FileUpload = (props) => {
   const handleUpload = () => {
     if (file == "") {
       alert("Please add the file");
+      openModal();
       return;
     }
 
@@ -136,13 +139,20 @@ const FileUpload = (props) => {
             Upload an Image
           </button>
         </div>
-        <Popup open={open} onClose={closeModal}>
-          <input type="file" accept="/image/*" onChange={handleChange}></input>
-          <button onClick={handleUpload}>Save</button>
-          {uploaded && (
-            <p className="success-msg">Image was uploaded successfully</p>
-          )}
-        </Popup>
+        {open && (
+          <div className="bg-red-500">
+            <input
+              type="file"
+              accept="/image/*"
+              onChange={handleChange}
+              className=" h-[200px]"
+            ></input>
+            <button onClick={handleUpload}>Save</button>
+            {uploaded && (
+              <p className="success-msg">Image was uploaded successfully</p>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
