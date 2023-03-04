@@ -17,6 +17,10 @@ const FileUpload = (props) => {
   const closeModal = () => setOpen(false);
   const openModal = () => {
     setOpen(!open);
+    document.body.classList.add('overflow-hidden');
+    if (open) {
+      document.body.classList.remove('overflow-hidden');
+    }
   };
   const userUsing = props.currentUser;
   console.log("userUsing", userUsing);
@@ -141,22 +145,22 @@ const FileUpload = (props) => {
             Upload an Image
           </button>
         </div>
-        {open && (
-          <div className="bg-red-500">
+      </div>
+      <div className={`flex items-center justify-center ${open ? "    flex justify-center items-center min-h-screen w-screen fixed inset-0 overflow-y-scroll bg-black bg-opacity-60 transition-opacity duration-300 md:z-50 z-[101]" : "hidden"}`}>
+            <div className="bg-white">
             <input
               type="file"
               accept="/image/*"
               onChange={handleChange}
-              className=" h-[200px]"
-            ></input>
+              className=""
+              ></input>
             <button onClick={handleUpload}>Save</button>
             {uploaded && (
               <p className="success-msg">Image was uploaded successfully</p>
-            )}
+              )}
+            </div>
           </div>
-        )}
-      </div>
-    </>
+        </>
   );
 };
 

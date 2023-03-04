@@ -38,8 +38,8 @@ function Gallery(props) {
   return (
     <>
       <Navbar verifiedUser={verifiedUser} />
-      <div className="flex items-center justify-center">
-        <div className="mt-10">
+      <div className="w-full ">
+        <div className="">
           <FileUpload verifiedUser={verifiedUser} currentUser={currentUser} />
         </div>
       </div>
