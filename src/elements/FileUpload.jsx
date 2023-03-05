@@ -17,8 +17,8 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { RxCross2 } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
-import {toast} from 'react-toastify';
-import {config} from '../elements/config/index'
+import { toast } from "react-toastify";
+import { config } from "../elements/config/index";
 
 const FileUpload = (props) => {
   // console.log("currentUser FileUpload", props.currentUser)
@@ -27,6 +27,7 @@ const FileUpload = (props) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
@@ -83,6 +84,7 @@ const FileUpload = (props) => {
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     setUploaded(false);
+    setSaving(true); //
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -92,6 +94,7 @@ const FileUpload = (props) => {
       },
       (error) => {
         console.log(error);
+        setSaving(false);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -100,9 +103,10 @@ const FileUpload = (props) => {
             imageUrl: downloadURL,
           }).then(() => {
             setUploaded(true);
-            toast('Uploaded Image Successfully', {
+            setSaving(false);
+            toast("Uploaded Image Successfully", {
               ...config,
-              type: 'success',
+              type: "success",
             });
             closeModal();
             loadAllImages();
@@ -120,9 +124,9 @@ const FileUpload = (props) => {
     // Delete file from Firebase Storage
     const storageRef = ref(storage, imageUrl);
     await deleteObject(storageRef);
-    toast('Deleted Image Successfully', {
+    toast("Deleted Image Successfully", {
       ...config,
-      type: 'success',
+      type: "success",
     });
     // Reload images
     loadAllImages();
@@ -145,8 +149,10 @@ const FileUpload = (props) => {
                 <div className="relative flex w-full gap-3 shadow-xl" key={id}>
                   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center duration-300 bg-white opacity-0 hover:opacity-100 bg-opacity-90">
                     <button
-                    className=""
-                      onClick={() => handleDelete(imageUrl.id, imageUrl.imageUrl)}
+                      className=""
+                      onClick={() =>
+                        handleDelete(imageUrl.id, imageUrl.imageUrl)
+                      }
                     >
                       <MdDelete />
                     </button>
@@ -169,7 +175,7 @@ const FileUpload = (props) => {
       <div
         className={`flex items-center justify-center ${
           open
-            ? "flex justify-center items-center min-h-screen w-screen fixed inset-0 overflow-y-scroll bg-black bg-opacity-60 transition-opacity duration-300 md:z-50 z-[101]"
+            ? "flex justify-center items-center min-h-screen w-screen fixed inset-0 overflow-y-scroll  bg-black bg-opacity-60 transition-opacity duration-300 md:z-50 z-[101]"
             : "hidden"
         }`}
       >
@@ -188,7 +194,9 @@ const FileUpload = (props) => {
               <div class="flex flex-col items-center justify-center py-12 px-12">
                 {/* <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg> */}
                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span class="font-semibold">Click to upload</span>
+                  <span class="font-semibold">
+                    {file ? ` Image Uploaded ` : ` Click to upload`}
+                  </span>
                 </p>
               </div>
               <input
@@ -202,8 +210,15 @@ const FileUpload = (props) => {
             <button
               className="w-[50px] h-full bg-black text-white py-14  flex justify-center items-center font-semibold rounded-[3px] text-[12px]"
               onClick={handleUpload}
+              disabled={saving}
             >
-              Save
+              {saving ? (
+                <div class=" flex justify-center items-center">
+                  <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                </div>
+              ) : (
+                "Save"
+              )}
             </button>
           </div>
         </div>
