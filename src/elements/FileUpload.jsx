@@ -214,7 +214,7 @@ const FileUpload = (props) => {
             >
               {saving ? (
                 <div class=" flex justify-center items-center">
-                  <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                  <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                 </div>
               ) : (
                 "Save"
