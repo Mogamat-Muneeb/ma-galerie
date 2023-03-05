@@ -21,7 +21,6 @@ import { toast } from "react-toastify";
 import { config } from "../elements/config/index";
 
 const FileUpload = (props) => {
-  // console.log("currentUser FileUpload", props.currentUser)
   const [file, setFile] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [images, setImages] = useState([]);
@@ -33,10 +32,10 @@ const FileUpload = (props) => {
   const closeModal = () => setOpen(false);
   const openModal = () => {
     setOpen(!open);
-    // document.body.classList.add("overflow-hidden");
-    // if (open) {
-    //   document.body.classList.remove("overflow-hidden");
-    // }
+    document.body.classList.add("overflow-hidden");
+    if (open) {
+      document.body.classList.remove("overflow-hidden");
+    }
   };
   const userUsing = props.currentUser;
   console.log("userUsing", userUsing);
@@ -66,7 +65,6 @@ const FileUpload = (props) => {
 
   useEffect(() => {
     loadAllImages();
-    console.log(images, "images");
   }, []);
   const handleChange = (event) => {
     setFile(event.target.files[0]);
@@ -134,7 +132,11 @@ const FileUpload = (props) => {
 
   return (
     <>
-      <div className="flex justify-center ">
+      <div className="flex flex-col items-center justify-center ">
+          {images.length === 0 && !loading &&
+           <div className="pb-10">
+            <p className="font-semibold text-[16px] ">You currently have no images</p>
+            </div>}
         {loading && (
           <div class=" flex justify-center items-center">
             <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
