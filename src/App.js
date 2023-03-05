@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { auth } from "./services/firebase";
 import Gallery from "./elements/Gallery";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -66,6 +68,7 @@ function App() {
   }
   return (
     <div className="App">
+      <ToastContainer/>
     <Router>
       <Routes>
       <Route path="/"  element={    <Gallery verifiedUser={verifiedUser} /> }/>
