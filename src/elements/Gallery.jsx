@@ -34,7 +34,6 @@ function Gallery(props) {
   }, [listItems]);
 
 
-  console.log("currentUser", currentUser)
   return (
     <>
       <Navbar verifiedUser={verifiedUser} />

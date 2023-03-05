@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { storage, db } from "../services/firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, collection, setDoc, getDocs } from "firebase/firestore";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { doc, collection, setDoc, getDocs, deleteDoc } from "firebase/firestore";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { RxCross2 } from "react-icons/rx";
+import { MdDelete } from "react-icons/md";
 
 const FileUpload = (props) => {
   // console.log("currentUser FileUpload", props.currentUser)
@@ -94,7 +95,19 @@ const FileUpload = (props) => {
     );
   };
 
-  
+  const handleDelete = async (id, imageUrl) => {
+    // Delete document from Firestore
+    const imageRef = doc(db, "images", userUsing, "user", id);
+    await deleteDoc(imageRef);
+
+    // Delete file from Firebase Storage
+    const storageRef = ref(storage, imageUrl);
+    await deleteObject(storageRef);
+
+    // Reload images
+    loadAllImages();
+  };
+
 
   return (
     <>
@@ -106,21 +119,26 @@ const FileUpload = (props) => {
         )}
       </div>
       <div className="flex items-center justify-center">
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 px-4 md:grid-cols-3 md:px-0">
           {images &&
             images.map((imageUrl, id) => {
               return (
                 <div className="flex w-full gap-3 shadow-xl" key={id}>
                   <img
                     src={imageUrl.imageUrl}
-                    className="w-[150px] h-[150px] object-cover"
+                    className="w-[200px] h-[200px] object-cover"
                   />
+                        <button
+                    onClick={() => handleDelete(imageUrl.id, imageUrl.imageUrl)}
+                  >
+                    <MdDelete />
+                  </button>
                 </div>
               );
             })}
           <button
             onClick={openModal}
-            className="w-[150px] h-[150px] bg-[#1D1D1D] text-white flex items-center justify-center text-center"
+            className="w-[200px] h-[200px] bg-[#1D1D1D] text-white flex items-center justify-center text-center"
           >
             Upload an Image
           </button>

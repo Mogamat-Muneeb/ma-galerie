@@ -25,6 +25,9 @@ function Navbar(props) {
         });
     };
 
+
+  console.log("verifiedUser", props.verifiedUser.displayName)
+
     return (
 
         <div className="flex items-center w-full h-14 px-4 gap-10 text-white bg-[#1D1D1D] sticky top-0 z-10">
@@ -36,9 +39,9 @@ function Navbar(props) {
                 Logout
               </button>
               <span className="text-white ">
-                {username}
-            {/* {props.verifiedUser ? `${username}'s Fun Notes` : "Fun Notes"} */}
+                {props.verifiedUser.displayName}
           </span>
+          <img src={props.verifiedUser.photoURL} alt="" className="w-10 h-10 rounded-full" />
         </div>
     )
 }
